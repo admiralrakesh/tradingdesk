@@ -7,227 +7,211 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <style>
-:root{--bg:#050810;--s:#080d1a;--c:#0c1225;--b:#1a2540;--a:#00e5ff;--g:#00e676;--r:#ff1744;--y:#ffd600;--t:#dde8f8;--m:#3d5270}
+:root{--bg:#050810;--s:#080d1a;--c:#0b1020;--b:#1a2540;--a:#00e5ff;--g:#00e676;--r:#ff1744;--y:#ffd600;--t:#dde8f8;--m:#4a6080}
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{height:100%;overflow:hidden}
-body{background:var(--bg);color:var(--t);font-family:'Space Grotesk',sans-serif;font-size:13px;display:flex;flex-direction:column}
-body::before{content:'';position:fixed;inset:0;z-index:0;background-image:linear-gradient(rgba(0,229,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,255,.02) 1px,transparent 1px);background-size:40px 40px;pointer-events:none}
+body{background:var(--bg);color:var(--t);font-family:'Space Grotesk',sans-serif;display:flex;flex-direction:column}
+body::before{content:'';position:fixed;inset:0;z-index:0;background-image:linear-gradient(rgba(0,229,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,255,.018) 1px,transparent 1px);background-size:44px 44px;pointer-events:none}
 
-/* NAV */
-nav{position:relative;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:10px 24px;border-bottom:1px solid var(--b);flex-shrink:0}
-.logo{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;letter-spacing:2px;color:var(--a)}
+nav{position:relative;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:10px 24px;border-bottom:1px solid var(--b);background:rgba(5,8,16,.95);flex-shrink:0}
+.logo{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;letter-spacing:2px;color:var(--a)}
 .logo span{color:var(--t)}
-.nav-r{display:flex;align-items:center;gap:8px}
-.dot{width:6px;height:6px;border-radius:50%;background:var(--g);animation:pulse 1.5s infinite;flex-shrink:0}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
-.badge{font-size:9px;background:rgba(0,230,118,.08);border:1px solid rgba(0,230,118,.2);color:var(--g);padding:3px 8px;border-radius:20px;font-weight:600;letter-spacing:.5px}
+.nav-r{display:flex;align-items:center;gap:8px;font-size:10px;color:var(--m);font-family:'JetBrains Mono',monospace}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--g);animation:p 1.5s infinite}
+@keyframes p{0%,100%{opacity:1}50%{opacity:.2}}
+.badge{font-size:9px;background:rgba(0,230,118,.08);border:1px solid rgba(0,230,118,.2);color:var(--g);padding:3px 8px;border-radius:20px;font-weight:600}
 
-/* MAIN LAYOUT */
-.main{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:0;overflow:hidden;position:relative;z-index:1}
+.page{flex:1;display:grid;grid-template-columns:340px 1fr;overflow:hidden;position:relative;z-index:1}
 
-/* LEFT PANEL */
-.left{padding:28px 28px 20px;display:flex;flex-direction:column;justify-content:space-between;border-right:1px solid var(--b)}
-.eyebrow{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--a);margin-bottom:10px;font-family:'JetBrains Mono',monospace}
-.left h1{font-size:clamp(22px,2.8vw,34px);font-weight:700;line-height:1.15;letter-spacing:-.5px;margin-bottom:8px}
-.left h1 em{font-style:normal;color:var(--a)}
-.tagline{font-size:11px;color:var(--m);line-height:1.6;margin-bottom:16px;max-width:340px}
+/* LEFT */
+.left{padding:24px 22px;display:flex;flex-direction:column;border-right:1px solid var(--b);overflow:hidden}
+.eyebrow{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--a);margin-bottom:10px;font-family:'JetBrains Mono',monospace}
+h1{font-size:28px;font-weight:700;line-height:1.15;letter-spacing:-.5px;margin-bottom:8px}
+h1 em{font-style:normal;color:var(--a)}
+.tagline{font-size:11px;color:var(--m);line-height:1.6;margin-bottom:14px}
 
-/* TICKER */
-.ticker{display:flex;gap:0;background:var(--s);border:1px solid var(--b);border-radius:6px;overflow:hidden;margin-bottom:16px;font-family:'JetBrains Mono',monospace}
-.tick{display:flex;flex-direction:column;align-items:center;padding:7px 12px;border-right:1px solid var(--b);flex:1}
-.tick:last-child{border-right:none}
+.ticker{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--b);border:1px solid var(--b);border-radius:6px;overflow:hidden;margin-bottom:14px;font-family:'JetBrains Mono',monospace}
+.tick{background:var(--s);padding:7px 10px;text-align:center}
 .tick-l{font-size:8px;color:var(--m);letter-spacing:.5px;margin-bottom:2px}
-.tick-v{font-size:11px;font-weight:600}
+.tick-v{font-size:12px;font-weight:600}
 
-/* STATS */
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
-.stat{background:var(--s);border:1px solid var(--b);border-radius:5px;padding:8px 6px;text-align:center}
-.sv{font-size:16px;font-weight:700;color:var(--a);font-family:'JetBrains Mono',monospace}
-.sl{font-size:8px;color:var(--m);margin-top:1px;letter-spacing:.3px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:14px}
+.stat{background:var(--s);border:1px solid var(--b);border-radius:5px;padding:8px 4px;text-align:center}
+.sv{font-size:18px;font-weight:700;color:var(--a);font-family:'JetBrains Mono',monospace}
+.sl{font-size:8px;color:var(--m);margin-top:1px}
 
-/* RIGHT PANEL */
-.right{display:grid;grid-template-rows:1fr 1fr;gap:0;overflow:hidden}
+.note{font-size:9px;color:var(--m);line-height:1.65;padding:8px 10px;background:rgba(255,214,0,.03);border:1px solid rgba(255,214,0,.12);border-radius:5px}
+.note strong{color:#a08830}
 
-/* PLAN CARD */
-.plan{padding:18px 22px;display:flex;flex-direction:column;border-bottom:1px solid var(--b);position:relative}
-.plan:last-child{border-bottom:none}
-.plan.featured{background:linear-gradient(135deg,#060d1e 0%,#081428 100%)}
-.plan-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px}
-.plan-meta{}
-.plan-name{font-size:9px;font-weight:600;color:var(--m);text-transform:uppercase;letter-spacing:2px;margin-bottom:3px}
-.plan-price{font-size:28px;font-weight:700;line-height:1}
-.plan-price sup{font-size:12px;vertical-align:super}
-.plan-period{font-size:9px;color:var(--m);margin-top:2px}
-.plan-badge-inline{font-size:8px;background:rgba(0,229,255,.1);border:1px solid rgba(0,229,255,.25);color:var(--a);padding:3px 8px;border-radius:12px;font-weight:600;letter-spacing:.5px;white-space:nowrap}
-.plan-kite{font-size:9px;color:var(--m);background:var(--c);border:1px solid var(--b);border-radius:3px;padding:3px 7px;margin-bottom:10px;display:inline-block}
+/* RIGHT */
+.right{display:grid;grid-template-columns:1fr 1fr;overflow:hidden}
 
-/* FEATURES — horizontal chips */
-.feats{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:12px;flex:1}
-.feat{font-size:9px;padding:3px 7px;border-radius:12px;white-space:nowrap}
-.feat.on{background:rgba(0,230,118,.07);border:1px solid rgba(0,230,118,.2);color:#6ddea0}
-.feat.off{background:rgba(61,82,112,.08);border:1px solid rgba(61,82,112,.2);color:var(--m)}
-.feat.hi{background:rgba(0,229,255,.08);border:1px solid rgba(0,229,255,.25);color:var(--a);font-weight:600}
+/* PLAN */
+.plan{padding:20px 20px;display:flex;flex-direction:column;border-right:1px solid var(--b);overflow:hidden}
+.plan:last-child{border-right:none}
+.plan.featured{background:linear-gradient(160deg,#060e20 0%,#050d1c 100%)}
 
-.btn-buy{padding:10px;border:none;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;font-family:'Space Grotesk',sans-serif;transition:all .2s;letter-spacing:.3px;width:100%;margin-top:auto}
+.plan-name{font-size:9px;font-weight:600;color:var(--m);text-transform:uppercase;letter-spacing:2px;margin-bottom:4px;display:flex;align-items:center;gap:6px}
+.popular-tag{font-size:8px;background:rgba(0,229,255,.1);border:1px solid rgba(0,229,255,.2);color:var(--a);padding:2px 6px;border-radius:10px;font-weight:600;letter-spacing:.3px}
+.plan-price{font-size:36px;font-weight:700;line-height:1;margin-bottom:2px}
+.plan-price sup{font-size:14px;vertical-align:super}
+.plan-period{font-size:10px;color:var(--m);margin-bottom:6px}
+.plan-kite{font-size:9px;color:var(--m);background:var(--c);border:1px solid var(--b);border-radius:3px;padding:3px 7px;margin-bottom:12px;display:inline-block}
+
+.feats{list-style:none;flex:1;margin-bottom:14px;overflow:hidden}
+.feats li{font-size:11px;padding:3px 0;border-bottom:1px solid rgba(26,37,64,.6);display:flex;align-items:center;gap:6px;color:var(--t)}
+.feats li:last-child{border-bottom:none}
+.feats li.off{color:var(--m)}
+.feats .y{color:var(--g);font-size:10px;font-weight:700;flex-shrink:0}
+.feats .n{color:var(--m);font-size:10px;flex-shrink:0}
+.feats .hi{color:var(--a);font-weight:600}
+
+.btn-buy{padding:11px;border:none;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Space Grotesk',sans-serif;transition:all .2s;width:100%;letter-spacing:.3px;margin-top:auto}
 .btn-buy.basic{background:var(--c);color:var(--t);border:1px solid var(--b)}
 .btn-buy.basic:hover{border-color:var(--m)}
 .btn-buy.pro{background:var(--a);color:#050810}
 .btn-buy.pro:hover{filter:brightness(1.08)}
 .btn-buy:disabled{opacity:.4;cursor:not-allowed}
 
-/* FOOTER */
-footer{position:relative;z-index:10;text-align:center;padding:7px;border-top:1px solid var(--b);font-size:9px;color:var(--m);flex-shrink:0}
+footer{position:relative;z-index:10;text-align:center;padding:7px;border-top:1px solid var(--b);font-size:9px;color:var(--m);background:rgba(5,8,16,.95);flex-shrink:0}
 
 /* MODAL */
-.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:1000;align-items:center;justify-content:center;padding:16px}
-.overlay.open{display:flex}
-.modal{background:var(--s);border:1px solid var(--b);border-radius:12px;padding:24px;width:100%;max-width:380px}
+.ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:1000;align-items:center;justify-content:center;padding:16px}
+.ov.open{display:flex}
+.modal{background:var(--s);border:1px solid var(--b);border-radius:12px;padding:22px;width:100%;max-width:380px}
 .modal h2{font-size:16px;font-weight:700;margin-bottom:2px}
-.modal-sub{font-size:11px;color:var(--m);margin-bottom:16px}
-.modal-total{background:var(--c);border:1px solid var(--b);border-radius:6px;padding:9px 12px;display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
-.modal-total-lbl{font-size:10px;color:var(--m)}
-.modal-total-val{font-size:18px;font-weight:700;color:var(--g);font-family:'JetBrains Mono',monospace}
+.modal-sub{font-size:11px;color:var(--m);margin-bottom:14px}
+.mtotal{background:var(--c);border:1px solid var(--b);border-radius:6px;padding:9px 12px;display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.mtotal-l{font-size:10px;color:var(--m)}
+.mtotal-v{font-size:18px;font-weight:700;color:var(--g);font-family:'JetBrains Mono',monospace}
 .fg{margin-bottom:10px}
 .fg label{display:block;font-size:9px;color:var(--m);letter-spacing:.5px;margin-bottom:4px;text-transform:uppercase}
 .fg input,.fg select{width:100%;padding:8px 11px;background:var(--c);border:1px solid var(--b);border-radius:5px;color:var(--t);font-size:12px;font-family:'Space Grotesk',sans-serif;outline:none;transition:border-color .2s}
 .fg input:focus,.fg select:focus{border-color:var(--a)}
 .fg input::placeholder{color:var(--m)}
 .err{font-size:9px;color:var(--r);margin-top:2px;display:none}
-.modal-disc{font-size:9px;color:var(--m);background:rgba(255,214,0,.04);border:1px solid rgba(255,214,0,.15);border-radius:4px;padding:7px 9px;margin-bottom:10px;line-height:1.6}
-.modal-prv{font-size:9px;color:var(--m);text-align:center;margin-bottom:10px}
-.btn-proc{width:100%;padding:11px;background:var(--a);color:#050810;border:none;border-radius:6px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Space Grotesk',sans-serif;transition:filter .2s}
+.mdisc{font-size:9px;color:var(--m);background:rgba(255,214,0,.03);border:1px solid rgba(255,214,0,.12);border-radius:4px;padding:7px 9px;margin-bottom:10px;line-height:1.6}
+.mprv{font-size:9px;color:var(--m);text-align:center;margin-bottom:10px}
+.btn-proc{width:100%;padding:11px;background:var(--a);color:#050810;border:none;border-radius:6px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Space Grotesk',sans-serif}
 .btn-proc:hover{filter:brightness(1.08)}
 .btn-cancel{width:100%;padding:8px;background:transparent;color:var(--m);border:none;cursor:pointer;font-size:11px;margin-top:6px;font-family:'Space Grotesk',sans-serif}
-.btn-cancel:hover{color:var(--t)}
 
 /* SUCCESS */
-.success-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:2000;align-items:center;justify-content:center}
-.success-overlay.open{display:flex}
-.success-box{background:var(--s);border:1px solid rgba(0,230,118,.3);border-radius:14px;padding:36px;text-align:center;max-width:360px;width:100%}
-.success-box h3{color:var(--g);font-size:22px;margin-bottom:10px}
-.success-box p{color:var(--m);font-size:12px;line-height:1.7}
+.sov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:2000;align-items:center;justify-content:center}
+.sov.open{display:flex}
+.sbox{background:var(--s);border:1px solid rgba(0,230,118,.3);border-radius:14px;padding:36px;text-align:center;max-width:340px;width:100%}
+.sbox h3{color:var(--g);font-size:22px;margin-bottom:10px}
+.sbox p{color:var(--m);font-size:12px;line-height:1.7}
+.sbox button{margin-top:18px;padding:10px 28px;background:var(--g);color:#050810;border:none;border-radius:6px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Space Grotesk',sans-serif}
 
-/* MOBILE */
-@media(max-width:640px){
+@media(max-width:700px){
   html,body{overflow:auto}
-  .main{grid-template-columns:1fr}
+  .page{grid-template-columns:1fr}
   .left{border-right:none;border-bottom:1px solid var(--b)}
-  .right{grid-template-rows:auto auto}
-  .plan{border-bottom:1px solid var(--b)}
+  .right{grid-template-columns:1fr}
+  .plan{border-right:none;border-bottom:1px solid var(--b)}
 }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
-  <div class="logo">TRADING<span>DESK</span> <span style="font-size:9px;color:var(--m);margin-left:3px">v4.3</span></div>
+  <div class="logo">TRADING<span>DESK</span> <span style="font-size:9px;color:var(--m);margin-left:4px">v4.3</span></div>
   <div class="nav-r">
     <div class="dot"></div>
     <div class="badge">NSE LIVE</div>
-    <span style="font-size:9px;color:var(--m);font-family:'JetBrains Mono',monospace">WebSocket · 23 Signals</span>
+    WebSocket · 23 Signals · 3 Engines
   </div>
 </nav>
 
-<!-- MAIN -->
-<div class="main">
+<div class="page">
 
   <!-- LEFT -->
   <div class="left">
-    <div>
-      <div class="eyebrow">● Algorithmic NSE Analysis Platform</div>
-      <h1>Trade with<br><em>algorithmic edge</em></h1>
-      <div class="tagline">Real-time NIFTY & BANKNIFTY analysis. FII tracking. True GEX. Stock Undercurrent Scanner. Auto-calibrating signals.</div>
-      <div class="ticker">
-        <div class="tick"><div class="tick-l">NIFTY</div><div class="tick-v" style="color:var(--r)">22,713▼</div></div>
-        <div class="tick"><div class="tick-l">BANKNIFTY</div><div class="tick-v" style="color:var(--r)">51,549▼</div></div>
-        <div class="tick"><div class="tick-l">VIX</div><div class="tick-v" style="color:var(--y)">26.2</div></div>
-        <div class="tick"><div class="tick-l">FII</div><div class="tick-v" style="color:var(--r)">−₹9931Cr</div></div>
-      </div>
+    <div class="eyebrow">● Algorithmic NSE Analysis</div>
+    <h1>Trade with<br><em>algorithmic edge</em></h1>
+    <div class="tagline">Real-time NIFTY & BANKNIFTY analysis. FII tracking. True GEX. Stock Undercurrent Scanner. Auto-calibrating signals.</div>
+
+    <div class="ticker">
+      <div class="tick"><div class="tick-l">NIFTY</div><div class="tick-v" style="color:var(--r)">22,713 ▼</div></div>
+      <div class="tick"><div class="tick-l">BANKNIFTY</div><div class="tick-v" style="color:var(--r)">51,549 ▼</div></div>
+      <div class="tick"><div class="tick-l">VIX</div><div class="tick-v" style="color:var(--y)">26.2</div></div>
+      <div class="tick"><div class="tick-l">FII CASH</div><div class="tick-v" style="color:var(--r)">−₹9,931Cr</div></div>
     </div>
-    <div>
-      <div class="stats">
-        <div class="stat"><div class="sv">23</div><div class="sl">Signals</div></div>
-        <div class="stat"><div class="sv">3m</div><div class="sl">Scan interval</div></div>
-        <div class="stat"><div class="sv">100</div><div class="sl">Stocks</div></div>
-        <div class="stat"><div class="sv">3</div><div class="sl">Engines</div></div>
-      </div>
-      <div style="margin-top:10px;font-size:9px;color:var(--m);line-height:1.6;padding:8px 10px;background:rgba(255,214,0,.03);border:1px solid rgba(255,214,0,.12);border-radius:5px">
-        ⚠ <strong style="color:#a89030">Requirements:</strong> Windows 10/11 · Zerodha Kite Connect API (₹500/month) · Internet connection<br>
-        ⚠ <strong style="color:#a89030">Disclaimer:</strong> Educational tool only. Not SEBI registered. Not investment advice. F&amp;O carries significant risk.
-      </div>
+
+    <div class="stats">
+      <div class="stat"><div class="sv">23</div><div class="sl">Signals</div></div>
+      <div class="stat"><div class="sv">3m</div><div class="sl">Interval</div></div>
+      <div class="stat"><div class="sv">100</div><div class="sl">Stocks</div></div>
+      <div class="stat"><div class="sv">3</div><div class="sl">Engines</div></div>
+    </div>
+
+    <div class="note">
+      <strong>Requirements:</strong> Windows 10/11 · Zerodha Kite Connect API (₹500/month) · Internet<br>
+      <strong>Disclaimer:</strong> Educational tool only. Not SEBI registered. Not investment advice. F&amp;O carries significant risk of loss.
     </div>
   </div>
 
-  <!-- RIGHT: two plan cards -->
+  <!-- RIGHT: two plans side by side -->
   <div class="right">
 
     <!-- BASIC -->
     <div class="plan">
-      <div class="plan-top">
-        <div class="plan-meta">
-          <div class="plan-name">Basic</div>
-          <div class="plan-price"><sup>₹</sup>999</div>
-          <div class="plan-period">per month · 1 machine</div>
-        </div>
-        <div class="plan-kite">+ ₹500 Kite = ₹1,499 total</div>
-      </div>
-      <div class="feats">
-        <span class="feat on">✓ NIFTY 50 analysis</span>
-        <span class="feat on">✓ BANKNIFTY analysis</span>
-        <span class="feat on">✓ Live WebSocket</span>
-        <span class="feat on">✓ True GEX</span>
-        <span class="feat on">✓ FII/DII signals</span>
-        <span class="feat on">✓ Auto-calibration</span>
-        <span class="feat off">✗ Undercurrent Scanner</span>
-        <span class="feat off">✗ FII/Promoter data</span>
-        <span class="feat off">✗ Signal accuracy</span>
-      </div>
+      <div class="plan-name">Basic</div>
+      <div class="plan-price"><sup>₹</sup>999</div>
+      <div class="plan-period">per month · 1 machine</div>
+      <div class="plan-kite">+ ₹500 Kite API = ₹1,499 total</div>
+      <ul class="feats">
+        <li><span class="y">✓</span> NIFTY 50 — 23 signal analysis</li>
+        <li><span class="y">✓</span> BANKNIFTY — 23 signal analysis</li>
+        <li><span class="y">✓</span> Live WebSocket (3-min scan)</li>
+        <li><span class="y">✓</span> True GEX + Gamma wall</li>
+        <li><span class="y">✓</span> FII/DII cash + derivatives</li>
+        <li><span class="y">✓</span> Auto-calibrating weights</li>
+        <li><span class="y">✓</span> Options + Futures engine</li>
+        <li class="off"><span class="n">✗</span> Stock Undercurrent Scanner</li>
+        <li class="off"><span class="n">✗</span> FII/Promoter holding data</li>
+        <li class="off"><span class="n">✗</span> Signal accuracy calibration</li>
+      </ul>
       <button class="btn-buy basic" onclick="openModal('basic',999)">Get Basic — ₹999/month</button>
     </div>
 
     <!-- PRO -->
     <div class="plan featured">
-      <div class="plan-top">
-        <div class="plan-meta">
-          <div class="plan-name">Pro</div>
-          <div class="plan-price" style="color:var(--a)"><sup>₹</sup>1,999</div>
-          <div class="plan-period">per month · 2 machines</div>
-        </div>
-        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
-          <div class="plan-badge-inline">MOST POPULAR</div>
-          <div class="plan-kite">+ ₹500 Kite = ₹2,499 total</div>
-        </div>
-      </div>
-      <div class="feats">
-        <span class="feat on">✓ Everything in Basic</span>
-        <span class="feat hi">★ Undercurrent Scanner</span>
-        <span class="feat on">✓ Nifty 100 stocks</span>
-        <span class="feat on">✓ FII/Promoter tracking</span>
-        <span class="feat on">✓ Delivery % trend</span>
-        <span class="feat on">✓ Signal accuracy</span>
-        <span class="feat on">✓ Watchlist + P&amp;L</span>
-        <span class="feat on">✓ Priority support</span>
-      </div>
+      <div class="plan-name">Pro <span class="popular-tag">MOST POPULAR</span></div>
+      <div class="plan-price" style="color:var(--a)"><sup>₹</sup>1,999</div>
+      <div class="plan-period">per month · 2 machines</div>
+      <div class="plan-kite">+ ₹500 Kite API = ₹2,499 total</div>
+      <ul class="feats">
+        <li><span class="y">✓</span> Everything in Basic</li>
+        <li><span class="y">✓</span> <span class="hi">Stock Undercurrent Scanner</span></li>
+        <li><span class="y">✓</span> Nifty 100 stocks — 10 signals</li>
+        <li><span class="y">✓</span> FII/Promoter quarterly tracking</li>
+        <li><span class="y">✓</span> 5-day delivery % trend</li>
+        <li><span class="y">✓</span> VWAP accumulation pattern</li>
+        <li><span class="y">✓</span> Signal accuracy calibration</li>
+        <li><span class="y">✓</span> Watchlist with P&L tracking</li>
+        <li><span class="y">✓</span> Works on 2 machines</li>
+        <li><span class="y">✓</span> Priority email support</li>
+      </ul>
       <button class="btn-buy pro" onclick="openModal('pro',1999)">Get Pro — ₹1,999/month</button>
     </div>
 
   </div>
 </div>
 
-<!-- FOOTER -->
 <footer>
   Trading Desk v4.3 &nbsp;·&nbsp; your-email@gmail.com &nbsp;·&nbsp; Educational tool only · Not SEBI registered · Not investment advice
 </footer>
 
 <!-- MODAL -->
-<div class="overlay" id="overlay">
+<div class="ov" id="ov">
   <div class="modal">
     <h2>Complete your order</h2>
     <div class="modal-sub" id="modal-sub">Pro Plan — ₹1,999/month</div>
-    <div class="modal-total">
-      <span class="modal-total-lbl">Total today</span>
-      <span class="modal-total-val" id="modal-price">₹1,999</span>
+    <div class="mtotal">
+      <span class="mtotal-l">Total today</span>
+      <span class="mtotal-v" id="modal-price">₹1,999</span>
     </div>
     <div class="fg">
       <label>Full Name</label>
@@ -253,41 +237,39 @@ footer{position:relative;z-index:10;text-align:center;padding:7px;border-top:1px
         <option value="learning">Still learning</option>
       </select>
     </div>
-    <div class="modal-disc">⚠ Educational tool only. Not SEBI registered. Not investment advice. F&amp;O carries significant risk. By proceeding you confirm educational use only.</div>
-    <div class="modal-prv">🔒 Your data is used only to deliver your license. Never sold or shared.</div>
+    <div class="mdisc">⚠ Educational tool only. Not SEBI registered. Not investment advice. F&amp;O carries significant risk. By proceeding you confirm educational use only.</div>
+    <div class="mprv">🔒 Your data is only used to deliver your license. Never sold or shared.</div>
     <button class="btn-proc" id="btn-proceed" onclick="proceedToPayment()">Proceed to Payment →</button>
     <button class="btn-cancel" onclick="closeModal()">Cancel</button>
   </div>
 </div>
 
 <!-- SUCCESS -->
-<div class="success-overlay" id="success-overlay">
-  <div class="success-box">
+<div class="sov" id="sov">
+  <div class="sbox">
     <h3>✓ Payment Successful!</h3>
     <p>Your license key has been sent to your email.<br>
     Check inbox (and spam) within 2 minutes.<br><br>
-    <strong style="color:var(--t)">Download link is included in the email.</strong></p>
-    <button onclick="document.getElementById('success-overlay').classList.remove('open')" style="margin-top:20px;padding:10px 24px;background:var(--g);color:#050810;border:none;border-radius:6px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Space Grotesk',sans-serif">OK</button>
+    <strong style="color:var(--t)">Download link is in the email.</strong></p>
+    <button onclick="document.getElementById('sov').classList.remove('open')">OK</button>
   </div>
 </div>
 
 <script>
-const RAZORPAY_KEY_ID = "rzp_live_XXXXXXXXXXXX";
-const LICENSE_SERVER  = "http://187.127.147.22:5000";
-const SUPPORT_EMAIL   = "your-email@gmail.com";
-const PLAN_DAYS       = {basic:30,pro:30};
-
+const RAZORPAY_KEY_ID="rzp_live_XXXXXXXXXXXX";
+const LICENSE_SERVER="http://187.127.147.22:5000";
+const PLAN_DAYS={basic:30,pro:30};
 let _plan="pro",_amount=199900;
 
 function openModal(plan,amount){
   _plan=plan;_amount=amount*100;
   document.getElementById("modal-sub").textContent=(plan==="pro"?"Pro Plan":"Basic Plan")+" — ₹"+amount.toLocaleString("en-IN")+"/month";
   document.getElementById("modal-price").textContent="₹"+amount.toLocaleString("en-IN");
-  document.getElementById("overlay").classList.add("open");
+  document.getElementById("ov").classList.add("open");
   document.getElementById("inp-name").focus();
   ["err-name","err-email","err-phone"].forEach(id=>document.getElementById(id).style.display="none");
 }
-function closeModal(){document.getElementById("overlay").classList.remove("open");}
+function closeModal(){document.getElementById("ov").classList.remove("open");}
 
 function validate(){
   let ok=true;
@@ -304,7 +286,7 @@ function validate(){
 }
 
 function proceedToPayment(){
-  if(!validate()) return;
+  if(!validate())return;
   const name=document.getElementById("inp-name").value.trim();
   const email=document.getElementById("inp-email").value.trim();
   const phone=document.getElementById("inp-phone").value.trim();
@@ -342,12 +324,10 @@ async function verifyAndCreate(rzp,name,email,phone,ttype){
       })
     });
   }catch(e){}
-  document.getElementById("success-overlay").classList.add("open");
+  document.getElementById("sov").classList.add("open");
 }
 
-document.getElementById("overlay").addEventListener("click",function(e){
-  if(e.target===this)closeModal();
-});
+document.getElementById("ov").addEventListener("click",function(e){if(e.target===this)closeModal();});
 </script>
 </body>
 </html>
