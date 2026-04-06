@@ -58,8 +58,8 @@ h1 em{font-style:normal;color:var(--a)}
 .plan-period{font-size:10px;color:var(--m);margin-bottom:6px}
 .plan-kite{font-size:9px;color:var(--m);background:var(--c);border:1px solid var(--b);border-radius:3px;padding:3px 7px;margin-bottom:12px;display:inline-block}
 
-.feats{list-style:none;flex:1;margin-bottom:14px;overflow:hidden}
-.feats li{font-size:11px;padding:3px 0;border-bottom:1px solid rgba(26,37,64,.6);display:flex;align-items:center;gap:6px;color:var(--t)}
+.feats{list-style:none;flex:1;margin-bottom:14px;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between}
+.feats li{font-size:11px;padding:2px 0;border-bottom:1px solid rgba(26,37,64,.6);display:flex;align-items:center;gap:6px;color:var(--t);flex:1;max-height:32px}
 .feats li:last-child{border-bottom:none}
 .feats li.off{color:var(--m)}
 .feats .y{color:var(--g);font-size:10px;font-weight:700;flex-shrink:0}
@@ -201,7 +201,7 @@ footer{position:relative;z-index:10;text-align:center;padding:7px;border-top:1px
 </div>
 
 <footer>
-  Trading Desk v4.3 &nbsp;·&nbsp; your-email@gmail.com &nbsp;·&nbsp; Educational tool only · Not SEBI registered · Not investment advice
+  Trading Desk v4.3 &nbsp;·&nbsp; <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="7d0412080f5018101c14113d1a101c1411531e1210">[email&#160;protected]</a> &nbsp;·&nbsp; Educational tool only · Not SEBI registered · Not investment advice
 </footer>
 
 <!-- MODAL -->
@@ -255,7 +255,7 @@ footer{position:relative;z-index:10;text-align:center;padding:7px;border-top:1px
   </div>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 const RAZORPAY_KEY_ID="rzp_live_XXXXXXXXXXXX";
 const LICENSE_SERVER="http://187.127.147.22:5000";
 const PLAN_DAYS={basic:30,pro:30};
@@ -320,14 +320,4 @@ async function verifyAndCreate(rzp,name,email,phone,ttype){
         razorpay_signature:rzp.razorpay_signature||"",
         customer_name:name,customer_email:email,
         customer_phone:phone,trader_type:ttype,
-        plan:_plan,days:PLAN_DAYS[_plan]
-      })
-    });
-  }catch(e){}
-  document.getElementById("sov").classList.add("open");
-}
-
-document.getElementById("ov").addEventListener("click",function(e){if(e.target===this)closeModal();});
-</script>
-</body>
-</html>
+        plan:_plan,days:PLAN_
