@@ -4,214 +4,254 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Trading Desk v4.3 — NSE Analysis Platform</title>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <style>
-:root{--bg:#050810;--s:#080d1a;--c:#0b1020;--b:#1a2540;--a:#00e5ff;--g:#00e676;--r:#ff1744;--y:#ffd600;--t:#dde8f8;--m:#4a6080}
 *{margin:0;padding:0;box-sizing:border-box}
-html,body{height:100%;overflow:hidden}
-body{background:var(--bg);color:var(--t);font-family:'Space Grotesk',sans-serif;display:flex;flex-direction:column}
-body::before{content:'';position:fixed;inset:0;z-index:0;background-image:linear-gradient(rgba(0,229,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,255,.018) 1px,transparent 1px);background-size:44px 44px;pointer-events:none}
+:root{--bg:#07090f;--card:#0d111c;--border:#1c2640;--a:#00d4ff;--g:#00c566;--r:#ff3b5c;--y:#f5a623;--t:#e8edf8;--m:#5a6e8a;--dim:#2a3550}
+html{height:100%}
+body{background:var(--bg);color:var(--t);font-family:'Inter',sans-serif;min-height:100vh;display:flex;flex-direction:column;font-size:13px}
 
-nav{position:relative;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:10px 24px;border-bottom:1px solid var(--b);background:rgba(5,8,16,.95);flex-shrink:0}
-.logo{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;letter-spacing:2px;color:var(--a)}
-.logo span{color:var(--t)}
-.nav-r{display:flex;align-items:center;gap:8px;font-size:10px;color:var(--m);font-family:'JetBrains Mono',monospace}
-.dot{width:6px;height:6px;border-radius:50%;background:var(--g);animation:p 1.5s infinite}
-@keyframes p{0%,100%{opacity:1}50%{opacity:.2}}
-.badge{font-size:9px;background:rgba(0,230,118,.08);border:1px solid rgba(0,230,118,.2);color:var(--g);padding:3px 8px;border-radius:20px;font-weight:600}
+/* subtle dot grid */
+body::before{content:'';position:fixed;inset:0;z-index:0;background-image:radial-gradient(circle,rgba(0,212,255,.06) 1px,transparent 1px);background-size:28px 28px;pointer-events:none}
 
-.page{flex:1;display:grid;grid-template-columns:340px 1fr;overflow:hidden;position:relative;z-index:1}
+/* NAV */
+nav{position:relative;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:14px 32px;border-bottom:1px solid var(--border);background:rgba(7,9,15,.9);backdrop-filter:blur(10px)}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-text{font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:600;letter-spacing:1.5px;color:var(--t)}
+.logo-text span{color:var(--a)}
+.logo-ver{font-size:9px;color:var(--m);background:var(--dim);padding:2px 6px;border-radius:4px;font-family:'JetBrains Mono',monospace}
+.nav-right{display:flex;align-items:center;gap:12px}
+.live-pill{display:flex;align-items:center;gap:5px;font-size:10px;font-weight:600;letter-spacing:.5px;color:var(--g);background:rgba(0,197,102,.08);border:1px solid rgba(0,197,102,.2);padding:4px 10px;border-radius:20px}
+.live-dot{width:5px;height:5px;border-radius:50%;background:var(--g);animation:blink 1.4s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+.nav-meta{font-size:10px;color:var(--m);font-family:'JetBrains Mono',monospace}
 
-/* LEFT */
-.left{padding:24px 22px;display:flex;flex-direction:column;border-right:1px solid var(--b);overflow:hidden}
-.eyebrow{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--a);margin-bottom:10px;font-family:'JetBrains Mono',monospace}
-h1{font-size:28px;font-weight:700;line-height:1.15;letter-spacing:-.5px;margin-bottom:8px}
-h1 em{font-style:normal;color:var(--a)}
-.tagline{font-size:11px;color:var(--m);line-height:1.6;margin-bottom:14px}
+/* MAIN */
+main{flex:1;display:flex;align-items:center;justify-content:center;padding:24px 20px;position:relative;z-index:1}
+.container{width:100%;max-width:860px}
 
-.ticker{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--b);border:1px solid var(--b);border-radius:6px;overflow:hidden;margin-bottom:14px;font-family:'JetBrains Mono',monospace}
-.tick{background:var(--s);padding:7px 10px;text-align:center}
-.tick-l{font-size:8px;color:var(--m);letter-spacing:.5px;margin-bottom:2px}
+/* HERO */
+.hero{text-align:center;margin-bottom:28px}
+.hero-label{display:inline-flex;align-items:center;gap:6px;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--a);margin-bottom:12px;font-family:'JetBrains Mono',monospace;background:rgba(0,212,255,.05);border:1px solid rgba(0,212,255,.15);padding:4px 12px;border-radius:20px}
+.hero h1{font-size:clamp(24px,3.5vw,38px);font-weight:700;line-height:1.2;letter-spacing:-.5px;margin-bottom:8px;color:var(--t)}
+.hero h1 span{color:var(--a)}
+.hero p{font-size:13px;color:var(--m);max-width:480px;margin:0 auto 16px;line-height:1.6}
+
+/* TICKER ROW */
+.ticker{display:flex;align-items:center;justify-content:center;gap:0;background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin:0 auto 28px;width:fit-content;font-family:'JetBrains Mono',monospace;max-width:100%}
+.tick{padding:8px 18px;border-right:1px solid var(--border);text-align:center}
+.tick:last-child{border-right:none}
+.tick-l{font-size:8px;color:var(--m);letter-spacing:.5px;margin-bottom:3px;text-transform:uppercase}
 .tick-v{font-size:12px;font-weight:600}
 
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:14px}
-.stat{background:var(--s);border:1px solid var(--b);border-radius:5px;padding:8px 4px;text-align:center}
-.sv{font-size:18px;font-weight:700;color:var(--a);font-family:'JetBrains Mono',monospace}
-.sl{font-size:8px;color:var(--m);margin-top:1px}
+/* PLANS GRID */
+.plans{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+@media(max-width:580px){.plans{grid-template-columns:1fr}}
 
-.note{font-size:9px;color:var(--m);line-height:1.65;padding:8px 10px;background:rgba(255,214,0,.03);border:1px solid rgba(255,214,0,.12);border-radius:5px}
-.note strong{color:#a08830}
+.plan{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px;position:relative;display:flex;flex-direction:column;transition:border-color .2s}
+.plan:hover{border-color:var(--dim)}
+.plan.pro{border-color:rgba(0,212,255,.3);background:linear-gradient(145deg,#0d111c 0%,#0a1020 100%)}
+.plan.pro:hover{border-color:rgba(0,212,255,.5)}
 
-/* RIGHT */
-.right{display:grid;grid-template-columns:1fr 1fr;overflow:hidden}
+.plan-header{margin-bottom:16px}
+.plan-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px}
+.plan-name{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--m)}
+.pro-badge{font-size:9px;font-weight:700;letter-spacing:.5px;color:var(--a);background:rgba(0,212,255,.1);border:1px solid rgba(0,212,255,.25);padding:3px 8px;border-radius:10px;text-transform:uppercase}
+.plan-price{display:flex;align-items:baseline;gap:2px;margin-bottom:2px}
+.plan-currency{font-size:16px;font-weight:600;color:var(--t);margin-top:4px}
+.plan-amount{font-size:40px;font-weight:700;line-height:1;letter-spacing:-1px}
+.plan.pro .plan-amount{color:var(--a)}
+.plan-period{font-size:11px;color:var(--m)}
+.plan-total{display:inline-block;font-size:10px;color:var(--m);background:var(--dim);padding:3px 8px;border-radius:4px;margin-top:8px;font-family:'JetBrains Mono',monospace}
 
-/* PLAN */
-.plan{padding:20px 20px;display:flex;flex-direction:column;border-right:1px solid var(--b);overflow:hidden}
-.plan:last-child{border-right:none}
-.plan.featured{background:linear-gradient(160deg,#060e20 0%,#050d1c 100%)}
+/* DIVIDER */
+.plan-divider{height:1px;background:var(--border);margin:14px 0}
 
-.plan-name{font-size:9px;font-weight:600;color:var(--m);text-transform:uppercase;letter-spacing:2px;margin-bottom:4px;display:flex;align-items:center;gap:6px}
-.popular-tag{font-size:8px;background:rgba(0,229,255,.1);border:1px solid rgba(0,229,255,.2);color:var(--a);padding:2px 6px;border-radius:10px;font-weight:600;letter-spacing:.3px}
-.plan-price{font-size:36px;font-weight:700;line-height:1;margin-bottom:2px}
-.plan-price sup{font-size:14px;vertical-align:super}
-.plan-period{font-size:10px;color:var(--m);margin-bottom:6px}
-.plan-kite{font-size:9px;color:var(--m);background:var(--c);border:1px solid var(--b);border-radius:3px;padding:3px 7px;margin-bottom:12px;display:inline-block}
+/* FEATURES */
+.features{list-style:none;margin-bottom:20px;flex:1}
+.features li{display:flex;align-items:center;gap:8px;padding:5px 0;font-size:12px;color:var(--t);border-bottom:1px solid rgba(28,38,64,.5)}
+.features li:last-child{border:none}
+.features li.dim{color:var(--m)}
+.features li.dim .icon{color:var(--dim)}
+.icon{font-size:11px;font-weight:700;width:14px;flex-shrink:0;text-align:center}
+.icon.yes{color:var(--g)}
+.icon.no{color:var(--dim)}
+.icon.star{color:var(--a)}
+.feat-text{}
+.feat-text b{color:var(--a);font-weight:600}
 
-.feats{list-style:none;flex:1;margin-bottom:14px;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between}
-.feats li{font-size:11px;padding:2px 0;border-bottom:1px solid rgba(26,37,64,.6);display:flex;align-items:center;gap:6px;color:var(--t);flex:1;max-height:32px}
-.feats li:last-child{border-bottom:none}
-.feats li.off{color:var(--m)}
-.feats .y{color:var(--g);font-size:10px;font-weight:700;flex-shrink:0}
-.feats .n{color:var(--m);font-size:10px;flex-shrink:0}
-.feats .hi{color:var(--a);font-weight:600}
+/* BUY BUTTON */
+.btn-buy{width:100%;padding:12px;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s;letter-spacing:.2px}
+.btn-buy.basic{background:var(--dim);color:var(--t);border:1px solid var(--border)}
+.btn-buy.basic:hover{background:#33445e;border-color:var(--m)}
+.btn-buy.pro-btn{background:var(--a);color:#07090f}
+.btn-buy.pro-btn:hover{filter:brightness(1.1);transform:translateY(-1px)}
+.btn-buy:disabled{opacity:.5;cursor:not-allowed;transform:none!important}
 
-.btn-buy{padding:11px;border:none;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Space Grotesk',sans-serif;transition:all .2s;width:100%;letter-spacing:.3px;margin-top:auto}
-.btn-buy.basic{background:var(--c);color:var(--t);border:1px solid var(--b)}
-.btn-buy.basic:hover{border-color:var(--m)}
-.btn-buy.pro{background:var(--a);color:#050810}
-.btn-buy.pro:hover{filter:brightness(1.08)}
-.btn-buy:disabled{opacity:.4;cursor:not-allowed}
+/* BOTTOM NOTES */
+.bottom{display:flex;align-items:center;justify-content:center;gap:20px;flex-wrap:wrap}
+.note-chip{font-size:10px;color:var(--m);display:flex;align-items:center;gap:5px}
+.note-chip::before{content:'';width:3px;height:3px;border-radius:50%;background:var(--dim);flex-shrink:0}
 
-footer{position:relative;z-index:10;text-align:center;padding:7px;border-top:1px solid var(--b);font-size:9px;color:var(--m);background:rgba(5,8,16,.95);flex-shrink:0}
+/* FOOTER */
+footer{position:relative;z-index:10;text-align:center;padding:10px;border-top:1px solid var(--border);font-size:10px;color:var(--m)}
 
 /* MODAL */
-.ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:1000;align-items:center;justify-content:center;padding:16px}
+.ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:1000;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(4px)}
 .ov.open{display:flex}
-.modal{background:var(--s);border:1px solid var(--b);border-radius:12px;padding:22px;width:100%;max-width:380px}
-.modal h2{font-size:16px;font-weight:700;margin-bottom:2px}
-.modal-sub{font-size:11px;color:var(--m);margin-bottom:14px}
-.mtotal{background:var(--c);border:1px solid var(--b);border-radius:6px;padding:9px 12px;display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
-.mtotal-l{font-size:10px;color:var(--m)}
-.mtotal-v{font-size:18px;font-weight:700;color:var(--g);font-family:'JetBrains Mono',monospace}
-.fg{margin-bottom:10px}
-.fg label{display:block;font-size:9px;color:var(--m);letter-spacing:.5px;margin-bottom:4px;text-transform:uppercase}
-.fg input,.fg select{width:100%;padding:8px 11px;background:var(--c);border:1px solid var(--b);border-radius:5px;color:var(--t);font-size:12px;font-family:'Space Grotesk',sans-serif;outline:none;transition:border-color .2s}
+.modal{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:28px;width:100%;max-width:400px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.modal-header{margin-bottom:20px}
+.modal-header h2{font-size:18px;font-weight:700;margin-bottom:4px}
+.modal-header p{font-size:12px;color:var(--m)}
+.modal-total{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px 14px;display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.modal-total-l{font-size:11px;color:var(--m)}
+.modal-total-v{font-size:20px;font-weight:700;color:var(--g);font-family:'JetBrains Mono',monospace}
+.fg{margin-bottom:12px}
+.fg label{display:block;font-size:10px;color:var(--m);letter-spacing:.3px;margin-bottom:5px;font-weight:500}
+.fg input,.fg select{width:100%;padding:10px 12px;background:var(--bg);border:1px solid var(--border);border-radius:7px;color:var(--t);font-size:13px;font-family:'Inter',sans-serif;outline:none;transition:border-color .15s}
 .fg input:focus,.fg select:focus{border-color:var(--a)}
-.fg input::placeholder{color:var(--m)}
-.err{font-size:9px;color:var(--r);margin-top:2px;display:none}
-.mdisc{font-size:9px;color:var(--m);background:rgba(255,214,0,.03);border:1px solid rgba(255,214,0,.12);border-radius:4px;padding:7px 9px;margin-bottom:10px;line-height:1.6}
-.mprv{font-size:9px;color:var(--m);text-align:center;margin-bottom:10px}
-.btn-proc{width:100%;padding:11px;background:var(--a);color:#050810;border:none;border-radius:6px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Space Grotesk',sans-serif}
+.fg input::placeholder{color:var(--dim)}
+.err{font-size:10px;color:var(--r);margin-top:3px;display:none}
+.modal-disc{font-size:10px;color:var(--m);background:rgba(245,166,35,.03);border:1px solid rgba(245,166,35,.12);border-radius:6px;padding:9px 11px;margin-bottom:12px;line-height:1.65}
+.modal-prv{font-size:10px;color:var(--m);text-align:center;margin-bottom:14px}
+.btn-proc{width:100%;padding:12px;background:var(--a);color:#07090f;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s;letter-spacing:.2px}
 .btn-proc:hover{filter:brightness(1.08)}
-.btn-cancel{width:100%;padding:8px;background:transparent;color:var(--m);border:none;cursor:pointer;font-size:11px;margin-top:6px;font-family:'Space Grotesk',sans-serif}
+.btn-cancel{width:100%;padding:9px;background:transparent;color:var(--m);border:none;cursor:pointer;font-size:12px;margin-top:8px;font-family:'Inter',sans-serif}
+.btn-cancel:hover{color:var(--t)}
 
 /* SUCCESS */
 .sov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:2000;align-items:center;justify-content:center}
 .sov.open{display:flex}
-.sbox{background:var(--s);border:1px solid rgba(0,230,118,.3);border-radius:14px;padding:36px;text-align:center;max-width:340px;width:100%}
-.sbox h3{color:var(--g);font-size:22px;margin-bottom:10px}
-.sbox p{color:var(--m);font-size:12px;line-height:1.7}
-.sbox button{margin-top:18px;padding:10px 28px;background:var(--g);color:#050810;border:none;border-radius:6px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Space Grotesk',sans-serif}
-
-@media(max-width:700px){
-  html,body{overflow:auto}
-  .page{grid-template-columns:1fr}
-  .left{border-right:none;border-bottom:1px solid var(--b)}
-  .right{grid-template-columns:1fr}
-  .plan{border-right:none;border-bottom:1px solid var(--b)}
-}
+.sbox{background:var(--card);border:1px solid rgba(0,197,102,.25);border-radius:16px;padding:40px 32px;text-align:center;max-width:360px;width:100%}
+.sbox-icon{font-size:40px;margin-bottom:14px}
+.sbox h3{color:var(--g);font-size:22px;font-weight:700;margin-bottom:10px}
+.sbox p{color:var(--m);font-size:13px;line-height:1.7;margin-bottom:20px}
+.sbox button{padding:11px 28px;background:var(--g);color:#07090f;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif}
 </style>
 </head>
 <body>
 
 <nav>
-  <div class="logo">TRADING<span>DESK</span> <span style="font-size:9px;color:var(--m);margin-left:4px">v4.3</span></div>
-  <div class="nav-r">
-    <div class="dot"></div>
-    <div class="badge">NSE LIVE</div>
-    WebSocket · 23 Signals · 3 Engines
+  <div class="logo">
+    <div class="logo-text">TRADING<span>DESK</span></div>
+    <div class="logo-ver">v4.3</div>
+  </div>
+  <div class="nav-right">
+    <div class="live-pill"><div class="live-dot"></div>NSE LIVE</div>
+    <div class="nav-meta">WebSocket · 23 Signals · 3 Engines</div>
   </div>
 </nav>
 
-<div class="page">
+<main>
+  <div class="container">
 
-  <!-- LEFT -->
-  <div class="left">
-    <div class="eyebrow">● Algorithmic NSE Analysis</div>
-    <h1>Trade with<br><em>algorithmic edge</em></h1>
-    <div class="tagline">Real-time NIFTY & BANKNIFTY analysis. FII tracking. True GEX. Stock Undercurrent Scanner. Auto-calibrating signals.</div>
+    <!-- HERO -->
+    <div class="hero">
+      <div class="hero-label">● Algorithmic NSE Analysis Platform</div>
+      <h1>Professional tools for<br><span>serious NSE traders</span></h1>
+      <p>Real-time NIFTY & BANKNIFTY analysis with FII tracking, True GEX, Stock Undercurrent Scanner, and auto-calibrating signals.</p>
 
-    <div class="ticker">
-      <div class="tick"><div class="tick-l">NIFTY</div><div class="tick-v" style="color:var(--r)">22,713 ▼</div></div>
-      <div class="tick"><div class="tick-l">BANKNIFTY</div><div class="tick-v" style="color:var(--r)">51,549 ▼</div></div>
-      <div class="tick"><div class="tick-l">VIX</div><div class="tick-v" style="color:var(--y)">26.2</div></div>
-      <div class="tick"><div class="tick-l">FII CASH</div><div class="tick-v" style="color:var(--r)">−₹9,931Cr</div></div>
+      <div class="ticker">
+        <div class="tick"><div class="tick-l">Nifty 50</div><div class="tick-v" style="color:var(--r)">22,713 ▼</div></div>
+        <div class="tick"><div class="tick-l">BankNifty</div><div class="tick-v" style="color:var(--r)">51,549 ▼</div></div>
+        <div class="tick"><div class="tick-l">India VIX</div><div class="tick-v" style="color:var(--y)">26.2</div></div>
+        <div class="tick"><div class="tick-l">FII Cash</div><div class="tick-v" style="color:var(--r)">−₹9,931Cr</div></div>
+        <div class="tick"><div class="tick-l">True GEX</div><div class="tick-v" style="color:var(--a)">803B PIN</div></div>
+      </div>
     </div>
 
-    <div class="stats">
-      <div class="stat"><div class="sv">23</div><div class="sl">Signals</div></div>
-      <div class="stat"><div class="sv">3m</div><div class="sl">Interval</div></div>
-      <div class="stat"><div class="sv">100</div><div class="sl">Stocks</div></div>
-      <div class="stat"><div class="sv">3</div><div class="sl">Engines</div></div>
+    <!-- PLANS -->
+    <div class="plans">
+
+      <!-- BASIC -->
+      <div class="plan">
+        <div class="plan-header">
+          <div class="plan-top">
+            <div class="plan-name">Basic</div>
+          </div>
+          <div class="plan-price">
+            <div class="plan-currency">₹</div>
+            <div class="plan-amount">999</div>
+          </div>
+          <div class="plan-period">per month · 1 machine</div>
+          <div class="plan-total">+ ₹500 Kite API = ₹1,499/month total</div>
+        </div>
+        <div class="plan-divider"></div>
+        <ul class="features">
+          <li><span class="icon yes">✓</span><span class="feat-text">NIFTY 50 — 23 signal analysis</span></li>
+          <li><span class="icon yes">✓</span><span class="feat-text">BANKNIFTY — 23 signal analysis</span></li>
+          <li><span class="icon yes">✓</span><span class="feat-text">Live WebSocket data (3-min scan)</span></li>
+          <li><span class="icon yes">✓</span><span class="feat-text">True GEX + Gamma wall levels</span></li>
+          <li><span class="icon yes">✓</span><span class="feat-text">FII/DII cash + derivatives signals</span></li>
+          <li><span class="icon yes">✓</span><span class="feat-text">Auto-calibrating signal weights</span></li>
+          <li><span class="icon yes">✓</span><span class="feat-text">Options + Futures trading engine</span></li>
+          <li class="dim"><span class="icon no">✗</span><span class="feat-text">Stock Undercurrent Scanner</span></li>
+          <li class="dim"><span class="icon no">✗</span><span class="feat-text">FII/Promoter holding data</span></li>
+          <li class="dim"><span class="icon no">✗</span><span class="feat-text">Signal accuracy calibration</span></li>
+        </ul>
+        <button class="btn-buy basic" onclick="openModal('basic',999)">Get Basic Plan →</button>
+      </div>
+
+      <!-- PRO -->
+      <div class="plan pro">
+        <div class="plan-header">
+          <div class="plan-top">
+            <div class="plan-name">Pro</div>
+            <div class="pro-badge">Most Popular</div>
+          </div>
+          <div class="plan-price">
+            <div class="plan-currency" style="color:var(--a)">₹</div>
+            <div class="plan-amount">1,999</div>
+          </div>
+          <div class="plan-period">per month · 2 machines</div>
+          <div class="plan-total">+ ₹500 Kite API = ₹2,499/month total</div>
+        </div>
+        <div class="plan-divider"></div>
+        <ul class="features">
+          <li><span class="icon yes">✓</span><span class="feat-text">Everything in Basic plan</span></li>
+          <li><span class="icon star">★</span><span class="feat-text"><b>Stock Undercurrent Scanner</b></span></li>
+          <li><span class="icon yes">✓</span><span class="feat-text">Nifty 100 stocks — 10 signals each</span></li>
+          <li><span class="icon yes">✓</span><span class="feat-text">FII/Promoter quarterly tracking</span></li>
+          <li><span class="icon yes">✓</span><span class="feat-text">5-day delivery % trend analysis</span></li>
+          <li><span class="icon yes">✓</span><span class="feat-text">VWAP accumulation pattern</span></li>
+          <li><span class="icon yes">✓</span><span class="feat-text">Signal accuracy calibration</span></li>
+          <li><span class="icon yes">✓</span><span class="feat-text">Watchlist with P&L tracking</span></li>
+          <li><span class="icon yes">✓</span><span class="feat-text">Works on 2 machines</span></li>
+          <li><span class="icon yes">✓</span><span class="feat-text">Priority email support</span></li>
+        </ul>
+        <button class="btn-buy pro-btn" onclick="openModal('pro',1999)">Get Pro Plan →</button>
+      </div>
+
     </div>
 
-    <div class="note">
-      <strong>Requirements:</strong> Windows 10/11 · Zerodha Kite Connect API (₹500/month) · Internet<br>
-      <strong>Disclaimer:</strong> Educational tool only. Not SEBI registered. Not investment advice. F&amp;O carries significant risk of loss.
+    <!-- BOTTOM NOTES -->
+    <div class="bottom">
+      <div class="note-chip">Windows 10/11 only</div>
+      <div class="note-chip">Requires Zerodha Kite Connect API</div>
+      <div class="note-chip">Educational tool · Not SEBI registered</div>
+      <div class="note-chip">Not investment advice</div>
+      <div class="note-chip">F&O carries significant risk</div>
     </div>
+
   </div>
-
-  <!-- RIGHT: two plans side by side -->
-  <div class="right">
-
-    <!-- BASIC -->
-    <div class="plan">
-      <div class="plan-name">Basic</div>
-      <div class="plan-price"><sup>₹</sup>999</div>
-      <div class="plan-period">per month · 1 machine</div>
-      <div class="plan-kite">+ ₹500 Kite API = ₹1,499 total</div>
-      <ul class="feats">
-        <li><span class="y">✓</span> NIFTY 50 — 23 signal analysis</li>
-        <li><span class="y">✓</span> BANKNIFTY — 23 signal analysis</li>
-        <li><span class="y">✓</span> Live WebSocket (3-min scan)</li>
-        <li><span class="y">✓</span> True GEX + Gamma wall</li>
-        <li><span class="y">✓</span> FII/DII cash + derivatives</li>
-        <li><span class="y">✓</span> Auto-calibrating weights</li>
-        <li><span class="y">✓</span> Options + Futures engine</li>
-        <li class="off"><span class="n">✗</span> Stock Undercurrent Scanner</li>
-        <li class="off"><span class="n">✗</span> FII/Promoter holding data</li>
-        <li class="off"><span class="n">✗</span> Signal accuracy calibration</li>
-      </ul>
-      <button class="btn-buy basic" onclick="openModal('basic',999)">Get Basic — ₹999/month</button>
-    </div>
-
-    <!-- PRO -->
-    <div class="plan featured">
-      <div class="plan-name">Pro <span class="popular-tag">MOST POPULAR</span></div>
-      <div class="plan-price" style="color:var(--a)"><sup>₹</sup>1,999</div>
-      <div class="plan-period">per month · 2 machines</div>
-      <div class="plan-kite">+ ₹500 Kite API = ₹2,499 total</div>
-      <ul class="feats">
-        <li><span class="y">✓</span> Everything in Basic</li>
-        <li><span class="y">✓</span> <span class="hi">Stock Undercurrent Scanner</span></li>
-        <li><span class="y">✓</span> Nifty 100 stocks — 10 signals</li>
-        <li><span class="y">✓</span> FII/Promoter quarterly tracking</li>
-        <li><span class="y">✓</span> 5-day delivery % trend</li>
-        <li><span class="y">✓</span> VWAP accumulation pattern</li>
-        <li><span class="y">✓</span> Signal accuracy calibration</li>
-        <li><span class="y">✓</span> Watchlist with P&L tracking</li>
-        <li><span class="y">✓</span> Works on 2 machines</li>
-        <li><span class="y">✓</span> Priority email support</li>
-      </ul>
-      <button class="btn-buy pro" onclick="openModal('pro',1999)">Get Pro — ₹1,999/month</button>
-    </div>
-
-  </div>
-</div>
+</main>
 
 <footer>
-  Trading Desk v4.3 &nbsp;·&nbsp; <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="7d0412080f5018101c14113d1a101c1411531e1210">[email&#160;protected]</a> &nbsp;·&nbsp; Educational tool only · Not SEBI registered · Not investment advice
+  Trading Desk v4.3 &nbsp;·&nbsp; admiralrakesh@gmail.com &nbsp;·&nbsp;
+  Educational software only · Not SEBI registered · Not investment advice · Trade at your own risk
 </footer>
 
-<!-- MODAL -->
+<!-- REGISTRATION MODAL -->
 <div class="ov" id="ov">
   <div class="modal">
-    <h2>Complete your order</h2>
-    <div class="modal-sub" id="modal-sub">Pro Plan — ₹1,999/month</div>
-    <div class="mtotal">
-      <span class="mtotal-l">Total today</span>
-      <span class="mtotal-v" id="modal-price">₹1,999</span>
+    <div class="modal-header">
+      <h2>Complete your order</h2>
+      <p id="modal-sub">Pro Plan — ₹1,999/month</p>
+    </div>
+    <div class="modal-total">
+      <span class="modal-total-l">Total today</span>
+      <span class="modal-total-v" id="modal-price">₹1,999</span>
     </div>
     <div class="fg">
       <label>Full Name</label>
@@ -237,8 +277,11 @@ footer{position:relative;z-index:10;text-align:center;padding:7px;border-top:1px
         <option value="learning">Still learning</option>
       </select>
     </div>
-    <div class="mdisc">⚠ Educational tool only. Not SEBI registered. Not investment advice. F&amp;O carries significant risk. By proceeding you confirm educational use only.</div>
-    <div class="mprv">🔒 Your data is only used to deliver your license. Never sold or shared.</div>
+    <div class="modal-disc">
+      ⚠ Educational tool only. Not SEBI registered. Not investment advice.
+      F&amp;O trading carries significant risk of loss. By proceeding you confirm educational use only.
+    </div>
+    <div class="modal-prv">🔒 Your data is only used to deliver your license. Never sold or shared.</div>
     <button class="btn-proc" id="btn-proceed" onclick="proceedToPayment()">Proceed to Payment →</button>
     <button class="btn-cancel" onclick="closeModal()">Cancel</button>
   </div>
@@ -247,77 +290,92 @@ footer{position:relative;z-index:10;text-align:center;padding:7px;border-top:1px
 <!-- SUCCESS -->
 <div class="sov" id="sov">
   <div class="sbox">
-    <h3>✓ Payment Successful!</h3>
-    <p>Your license key has been sent to your email.<br>
-    Check inbox (and spam) within 2 minutes.<br><br>
-    <strong style="color:var(--t)">Download link is in the email.</strong></p>
-    <button onclick="document.getElementById('sov').classList.remove('open')">OK</button>
+    <div class="sbox-icon">✅</div>
+    <h3>Payment Successful!</h3>
+    <p>Your license key has been sent to your email address.<br>
+    Check your inbox (and spam folder) within 2 minutes.<br>
+    The download link is included in the email.</p>
+    <button onclick="document.getElementById('sov').classList.remove('open')">Done</button>
   </div>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-const RAZORPAY_KEY_ID="rzp_live_XXXXXXXXXXXX";
-const LICENSE_SERVER="http://187.127.147.22:5000";
-const PLAN_DAYS={basic:30,pro:30};
-let _plan="pro",_amount=199900;
+<script>
+const RAZORPAY_KEY_ID = "rzp_live_XXXXXXXXXXXX";
+const LICENSE_SERVER  = "http://187.127.147.22:5000";
+const PLAN_DAYS       = {basic:30, pro:30};
+let _plan = "pro", _amount = 199900;
 
-function openModal(plan,amount){
-  _plan=plan;_amount=amount*100;
-  document.getElementById("modal-sub").textContent=(plan==="pro"?"Pro Plan":"Basic Plan")+" — ₹"+amount.toLocaleString("en-IN")+"/month";
-  document.getElementById("modal-price").textContent="₹"+amount.toLocaleString("en-IN");
+function openModal(plan, amount) {
+  _plan = plan; _amount = amount * 100;
+  document.getElementById("modal-sub").textContent =
+    (plan === "pro" ? "Pro Plan" : "Basic Plan") + " — ₹" + amount.toLocaleString("en-IN") + "/month";
+  document.getElementById("modal-price").textContent = "₹" + amount.toLocaleString("en-IN");
   document.getElementById("ov").classList.add("open");
   document.getElementById("inp-name").focus();
-  ["err-name","err-email","err-phone"].forEach(id=>document.getElementById(id).style.display="none");
+  ["err-name","err-email","err-phone"].forEach(id => document.getElementById(id).style.display = "none");
 }
-function closeModal(){document.getElementById("ov").classList.remove("open");}
+function closeModal() { document.getElementById("ov").classList.remove("open"); }
 
-function validate(){
-  let ok=true;
-  const n=document.getElementById("inp-name").value.trim();
-  const e=document.getElementById("inp-email").value.trim();
-  const p=document.getElementById("inp-phone").value.trim();
-  if(!n){document.getElementById("err-name").style.display="block";ok=false;}
-  else document.getElementById("err-name").style.display="none";
-  if(!e||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)){document.getElementById("err-email").style.display="block";ok=false;}
-  else document.getElementById("err-email").style.display="none";
-  if(!p||!/^\d{10}$/.test(p)){document.getElementById("err-phone").style.display="block";ok=false;}
-  else document.getElementById("err-phone").style.display="none";
+function validate() {
+  let ok = true;
+  const n = document.getElementById("inp-name").value.trim();
+  const e = document.getElementById("inp-email").value.trim();
+  const p = document.getElementById("inp-phone").value.trim();
+  if (!n) { document.getElementById("err-name").style.display = "block"; ok = false; }
+  else document.getElementById("err-name").style.display = "none";
+  if (!e || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)) { document.getElementById("err-email").style.display = "block"; ok = false; }
+  else document.getElementById("err-email").style.display = "none";
+  if (!p || !/^\d{10}$/.test(p)) { document.getElementById("err-phone").style.display = "block"; ok = false; }
+  else document.getElementById("err-phone").style.display = "none";
   return ok;
 }
 
-function proceedToPayment(){
-  if(!validate())return;
-  const name=document.getElementById("inp-name").value.trim();
-  const email=document.getElementById("inp-email").value.trim();
-  const phone=document.getElementById("inp-phone").value.trim();
-  const ttype=document.getElementById("inp-trader-type").value;
-  const btn=document.getElementById("btn-proceed");
-  btn.disabled=true;btn.textContent="Opening payment...";
-  const rzp=new Razorpay({
-    key:RAZORPAY_KEY_ID,amount:_amount,currency:"INR",
-    name:"Trading Desk v4.3",
-    description:(_plan==="pro"?"Pro":"Basic")+" Plan — 1 Month",
-    prefill:{name,email,contact:phone},
-    notes:{plan:_plan,customer_name:name,customer_email:email,trader_type:ttype},
-    theme:{color:"#00e5ff"},
-    handler:function(r){closeModal();verifyAndCreate(r,name,email,phone,ttype);},
-    modal:{ondismiss:function(){btn.disabled=false;btn.textContent="Proceed to Payment →";}}
+function proceedToPayment() {
+  if (!validate()) return;
+  const name  = document.getElementById("inp-name").value.trim();
+  const email = document.getElementById("inp-email").value.trim();
+  const phone = document.getElementById("inp-phone").value.trim();
+  const ttype = document.getElementById("inp-trader-type").value;
+  const btn   = document.getElementById("btn-proceed");
+  btn.disabled = true; btn.textContent = "Opening payment...";
+
+  const rzp = new Razorpay({
+    key: RAZORPAY_KEY_ID, amount: _amount, currency: "INR",
+    name: "Trading Desk v4.3",
+    description: (_plan === "pro" ? "Pro" : "Basic") + " Plan — 1 Month",
+    prefill: {name, email, contact: phone},
+    notes: {plan: _plan, customer_name: name, customer_email: email, trader_type: ttype},
+    theme: {color: "#00d4ff"},
+    handler: function(r) { closeModal(); verifyAndCreate(r, name, email, phone, ttype); },
+    modal: { ondismiss: function() { btn.disabled = false; btn.textContent = "Proceed to Payment →"; } }
   });
-  rzp.on("payment.failed",function(r){
-    alert("Payment failed: "+r.error.description);
-    btn.disabled=false;btn.textContent="Proceed to Payment →";
+  rzp.on("payment.failed", function(r) {
+    alert("Payment failed: " + r.error.description);
+    btn.disabled = false; btn.textContent = "Proceed to Payment →";
   });
   rzp.open();
 }
 
-async function verifyAndCreate(rzp,name,email,phone,ttype){
-  try{
-    await fetch(LICENSE_SERVER+"/webhook/razorpay-checkout",{
-      method:"POST",headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({
-        razorpay_payment_id:rzp.razorpay_payment_id,
-        razorpay_order_id:rzp.razorpay_order_id||"",
-        razorpay_signature:rzp.razorpay_signature||"",
-        customer_name:name,customer_email:email,
-        customer_phone:phone,trader_type:ttype,
-        plan:_plan,days:PLAN_
+async function verifyAndCreate(rzp, name, email, phone, ttype) {
+  try {
+    await fetch(LICENSE_SERVER + "/webhook/razorpay-checkout", {
+      method: "POST", headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+        razorpay_payment_id: rzp.razorpay_payment_id,
+        razorpay_order_id:   rzp.razorpay_order_id || "",
+        razorpay_signature:  rzp.razorpay_signature || "",
+        customer_name: name, customer_email: email,
+        customer_phone: phone, trader_type: ttype,
+        plan: _plan, days: PLAN_DAYS[_plan]
+      })
+    });
+  } catch(e) {}
+  document.getElementById("sov").classList.add("open");
+}
+
+document.getElementById("ov").addEventListener("click", function(e) {
+  if (e.target === this) closeModal();
+});
+</script>
+</body>
+</html>
