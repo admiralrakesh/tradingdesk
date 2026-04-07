@@ -18,7 +18,7 @@ nav{position:relative;z-index:10;display:flex;align-items:center;justify-content
 .logo-text span{color:var(--a)}
 .logo-ver{font-size:9px;color:var(--m);background:var(--dim);padding:2px 6px;border-radius:4px;font-family:'JetBrains Mono',monospace}
 .nav-right{display:flex;align-items:center;gap:12px}
-.live-pill{display:flex;align-items:center;gap:5px;font-size:10px;font-weight:600;letter-spacing:.5px;color:var(--g);background:rgba(0,197,102,.08);border:1px solid rgba(0,197,102,.2);padding:4px 10px;border-radius:20px}
+.live-pill{display:flex;align-items:center;gap:5px;font-size:10px;font-weight:600;letter-spacing:.5px;color:var(--g);background:rgba(0,197,102,.08);border:1px solid rgba(0,197,102,.2);padding:4px 10px;border-radius:20px;transition:all .3s}
 .live-dot{width:5px;height:5px;border-radius:50%;background:var(--g);animation:blink 1.4s infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
 .nav-meta{font-size:10px;color:var(--m);font-family:'JetBrains Mono',monospace}
@@ -109,7 +109,7 @@ footer{position:relative;z-index:10;text-align:center;padding:10px;border-top:1p
   </div>
   <div class="nav-right">
     <div class="live-pill" id="market-pill"><div class="live-dot" id="market-dot"></div><span id="market-label">NSE</span></div>
-    <div class="nav-meta">WebSocket · 23 Signals · 3 Engines</div>
+    <div class="nav-meta">WebSocket &middot; 23 Signals &middot; 3 Engines</div>
   </div>
 </nav>
 <main>
@@ -122,7 +122,7 @@ footer{position:relative;z-index:10;text-align:center;padding:10px;border-top:1p
         <div class="tick"><div class="tick-l">Nifty 50</div><div class="tick-v" id="t-nifty" style="color:var(--m)">&#8212;</div></div>
         <div class="tick"><div class="tick-l">BankNifty</div><div class="tick-v" id="t-bnf" style="color:var(--m)">&#8212;</div></div>
         <div class="tick"><div class="tick-l">India VIX</div><div class="tick-v" id="t-vix" style="color:var(--m)">&#8212;</div></div>
-        <div class="tick"><div class="tick-l">FII Cash</div><div class="tick-v" id="t-fii" style="color:var(--r)">&#8212;</div></div>
+        <div class="tick"><div class="tick-l">FII Cash</div><div class="tick-v" style="color:var(--r)">&#8212;&#8377;9,931Cr</div></div>
         <div class="tick"><div class="tick-l">Market</div><div class="tick-v" id="t-status" style="color:var(--m)">&#8212;</div></div>
       </div>
     </div>
@@ -245,8 +245,8 @@ let _plan = "pro", _amount = 199900;
 
 function openModal(plan, amount) {
   _plan = plan; _amount = amount * 100;
-  document.getElementById("modal-sub").textContent = (plan==="pro"?"Pro Plan":"Basic Plan") + " — ₹" + amount.toLocaleString("en-IN") + "/month";
-  document.getElementById("modal-price").textContent = "₹" + amount.toLocaleString("en-IN");
+  document.getElementById("modal-sub").textContent = (plan==="pro"?"Pro Plan":"Basic Plan") + " \u2014 \u20b9" + amount.toLocaleString("en-IN") + "/month";
+  document.getElementById("modal-price").textContent = "\u20b9" + amount.toLocaleString("en-IN");
   document.getElementById("ov").classList.add("open");
   document.getElementById("inp-name").focus();
   ["err-name","err-email","err-phone"].forEach(id => document.getElementById(id).style.display = "none");
@@ -278,16 +278,16 @@ function proceedToPayment() {
   const rzp = new Razorpay({
     key: RAZORPAY_KEY_ID, amount: _amount, currency: "INR",
     name: "Trading Desk v4.3",
-    description: (_plan==="pro"?"Pro":"Basic") + " Plan — 1 Month",
+    description: (_plan==="pro"?"Pro":"Basic") + " Plan \u2014 1 Month",
     prefill: {name, email, contact: phone},
     notes: {plan: _plan, customer_name: name, customer_email: email, trader_type: ttype},
     theme: {color: "#00d4ff"},
     handler: function(r) { closeModal(); verifyAndCreate(r, name, email, phone, ttype); },
-    modal: { ondismiss: function() { btn.disabled = false; btn.textContent = "Proceed to Payment →"; } }
+    modal: { ondismiss: function() { btn.disabled = false; btn.textContent = "Proceed to Payment \u2192"; } }
   });
   rzp.on("payment.failed", function(r) {
     alert("Payment failed: " + r.error.description);
-    btn.disabled = false; btn.textContent = "Proceed to Payment →";
+    btn.disabled = false; btn.textContent = "Proceed to Payment \u2192";
   });
   rzp.open();
 }
@@ -313,8 +313,34 @@ document.getElementById("ov").addEventListener("click", function(e) {
   if (e.target === this) closeModal();
 });
 
-// Live Ticker — updates every 60 seconds
+// ── Market status (IST time check) ───────────────────────────
+function updateMarketStatus() {
+  const now = new Date();
+  const ist = new Date(now.toLocaleString("en-US", {timeZone:"Asia/Kolkata"}));
+  const h = ist.getHours(), mn = ist.getMinutes(), dy = ist.getDay();
+  const isOpen = dy >= 1 && dy <= 5 &&
+    ((h > 9 || (h === 9 && mn >= 15)) && (h < 15 || (h === 15 && mn <= 30)));
+
+  const el    = document.getElementById("t-status");
+  const pill  = document.getElementById("market-pill");
+  const dot   = document.getElementById("market-dot");
+  const label = document.getElementById("market-label");
+
+  if (el) { el.textContent = isOpen ? "OPEN" : "CLOSED"; el.style.color = isOpen ? "var(--g)" : "var(--r)"; }
+  if (pill && dot && label) {
+    if (isOpen) {
+      pill.style.color = "var(--g)"; pill.style.background = "rgba(0,197,102,.08)"; pill.style.borderColor = "rgba(0,197,102,.2)";
+      dot.style.background = "var(--g)"; dot.style.animationPlayState = "running"; label.textContent = "NSE LIVE";
+    } else {
+      pill.style.color = "var(--r)"; pill.style.background = "rgba(255,59,92,.08)"; pill.style.borderColor = "rgba(255,59,92,.2)";
+      dot.style.background = "var(--r)"; dot.style.animationPlayState = "paused"; label.textContent = "NSE CLOSED";
+    }
+  }
+}
+
+// ── Live prices via CORS proxy ────────────────────────────────
 async function fetchTicker() {
+  updateMarketStatus();
   const pairs = [
     {id:"t-nifty", sym:"^NSEI"},
     {id:"t-bnf",   sym:"^NSEBANK"},
@@ -327,13 +353,13 @@ async function fetchTicker() {
       const res = await fetch(url);
       const obj = await res.json();
       const d   = JSON.parse(obj.contents);
-      const meta = d?.chart?.result?.[0]?.meta;
+      const meta = d && d.chart && d.chart.result && d.chart.result[0] && d.chart.result[0].meta;
       if (!meta) continue;
-      const price  = meta.regularMarketPrice;
-      const prev   = meta.chartPreviousClose || meta.previousClose || price;
-      const chg    = ((price - prev) / prev * 100);
-      const arrow  = chg >= 0 ? " ▲" : " ▼";
-      const color  = chg >= 0 ? "var(--g)" : "var(--r)";
+      const price = meta.regularMarketPrice;
+      const prev  = meta.chartPreviousClose || meta.previousClose || price;
+      const chg   = ((price - prev) / prev * 100);
+      const arrow = chg >= 0 ? " \u25b2" : " \u25bc";
+      const color = chg >= 0 ? "var(--g)" : "var(--r)";
       const el = document.getElementById(p.id);
       if (el) {
         el.textContent = price.toLocaleString("en-IN", {maximumFractionDigits:1}) + arrow;
@@ -341,43 +367,12 @@ async function fetchTicker() {
       }
     } catch(e) {}
   }
-  // Market status
-  const now = new Date();
-  const ist = new Date(now.toLocaleString("en-US", {timeZone:"Asia/Kolkata"}));
-  const h = ist.getHours(), m = ist.getMinutes(), day = ist.getDay();
-  const isOpen = day >= 1 && day <= 5 && ((h > 9 || (h === 9 && m >= 15)) && (h < 15 || (h === 15 && m <= 30)));
-
-  // Update ticker status
-  const el = document.getElementById("t-status");
-  if (el) {
-    el.textContent = isOpen ? "OPEN" : "CLOSED";
-    el.style.color = isOpen ? "var(--g)" : "var(--r)";
-  }
-
-  // Update nav pill
-  const pill  = document.getElementById("market-pill");
-  const dot   = document.getElementById("market-dot");
-  const label = document.getElementById("market-label");
-  if (pill && dot && label) {
-    if (isOpen) {
-      pill.style.color  = "var(--g)";
-      pill.style.background = "rgba(0,197,102,.08)";
-      pill.style.borderColor = "rgba(0,197,102,.2)";
-      dot.style.background  = "var(--g)";
-      dot.style.animationPlayState = "running";
-      label.textContent = "NSE LIVE";
-    } else {
-      pill.style.color  = "var(--r)";
-      pill.style.background = "rgba(255,59,92,.08)";
-      pill.style.borderColor = "rgba(255,59,92,.2)";
-      dot.style.background  = "var(--r)";
-      dot.style.animationPlayState = "paused";
-      label.textContent = "NSE CLOSED";
-    }
-  }
 }
+
+updateMarketStatus();
 fetchTicker();
 setInterval(fetchTicker, 60000);
+setInterval(updateMarketStatus, 30000);
 </script>
 </body>
 </html>
